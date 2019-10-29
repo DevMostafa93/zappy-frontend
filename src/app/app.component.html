@@ -1,0 +1,39 @@
+<table>
+  <thead>
+    <tr>
+      <th colspan="4">
+        <input class="s-input" type="text" #input placeholder="type here" />
+        <button class="s-btn" (click)='search(input.value)'>Find</button>
+      </th>
+    </tr>
+    <tr>
+      <th>Text</th>
+      <th class="co-size">User name</th>
+      <th>Screen name</th>
+      <th class="co-size">Created at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let tweet of tweets | paginate: { id: 'listing_pagination',itemsPerPage: 10,currentPage: query.page,totalItems: total }">
+      <td data-column="Text">{{tweet.text}}</td>
+      <td data-column="User name">{{tweet.user.name}}</td>
+      <td data-column="Screen name">{{tweet.user.screen_name}}</td>
+      <td data-column="Created at">{{tweet.created_at|date : 'medium':'UTC'}}</td>
+    </tr>
+    <tr *ngIf="total==0">
+      <td colspan="4" class="not-found">
+        No result found
+      </td>
+    </tr>
+    <tr *ngIf="total!=0">
+      <td colspan="4" >
+        <div>
+          <pagination-controls id="listing_pagination" maxSize='20' directionLinks="true"
+            (pageChange)="doPaginate($event)">
+          </pagination-controls>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
